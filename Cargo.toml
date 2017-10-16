@@ -1,0 +1,7 @@
+[package]
+name = "tinygui"
+version = "0.1.0"
+authors = ["Saethlin <kimockb@gmail.com>"]
+
+[dependencies]
+xcb = "0.8"
