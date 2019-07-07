@@ -1,6 +1,6 @@
 extern crate tinygui;
 
-use tinygui::{Window, Event};
+use tinygui::{Event, Window};
 
 fn main() {
     let window = Window::default();

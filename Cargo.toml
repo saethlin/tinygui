@@ -5,3 +5,7 @@ authors = ["Saethlin <kimockb@gmail.com>"]
 
 [dependencies]
 xcb = "0.8"
+
+[profile.release]
+lto = true
+panic = 'abort'

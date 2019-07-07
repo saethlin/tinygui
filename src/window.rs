@@ -20,32 +20,33 @@ impl Default for Window {
                 (xcb::CW_BACK_PIXEL, screen.white_pixel()),
                 (
                     xcb::CW_EVENT_MASK,
-xcb::EVENT_MASK_BUTTON_1_MOTION 	|
-xcb::EVENT_MASK_BUTTON_2_MOTION 	|
-xcb::EVENT_MASK_BUTTON_3_MOTION 	|
-xcb::EVENT_MASK_BUTTON_4_MOTION 	|
-xcb::EVENT_MASK_BUTTON_5_MOTION 	|
-xcb::EVENT_MASK_BUTTON_MOTION 	|
-xcb::EVENT_MASK_BUTTON_PRESS 	|
-xcb::EVENT_MASK_BUTTON_RELEASE 	|
-xcb::EVENT_MASK_COLOR_MAP_CHANGE |	
-xcb::EVENT_MASK_ENTER_WINDOW 	|
-xcb::EVENT_MASK_EXPOSURE 	|
-xcb::EVENT_MASK_FOCUS_CHANGE |	
-xcb::EVENT_MASK_KEYMAP_STATE |	
-xcb::EVENT_MASK_KEY_PRESS 	|
-xcb::EVENT_MASK_KEY_RELEASE |	
-xcb::EVENT_MASK_LEAVE_WINDOW |	
-xcb::EVENT_MASK_NO_EVENT 	|
-xcb::EVENT_MASK_OWNER_GRAB_BUTTON |	
-xcb::EVENT_MASK_POINTER_MOTION 	|
-xcb::EVENT_MASK_POINTER_MOTION_HINT |	
-xcb::EVENT_MASK_PROPERTY_CHANGE 	|
-xcb::EVENT_MASK_RESIZE_REDIRECT 	|
-xcb::EVENT_MASK_STRUCTURE_NOTIFY 	|
-xcb::EVENT_MASK_SUBSTRUCTURE_NOTIFY |	
-xcb::EVENT_MASK_SUBSTRUCTURE_REDIRECT 	|
-xcb::EVENT_MASK_VISIBILITY_CHANGE 	     ),
+                    xcb::EVENT_MASK_BUTTON_1_MOTION
+                        | xcb::EVENT_MASK_BUTTON_2_MOTION
+                        | xcb::EVENT_MASK_BUTTON_3_MOTION
+                        | xcb::EVENT_MASK_BUTTON_4_MOTION
+                        | xcb::EVENT_MASK_BUTTON_5_MOTION
+                        | xcb::EVENT_MASK_BUTTON_MOTION
+                        | xcb::EVENT_MASK_BUTTON_PRESS
+                        | xcb::EVENT_MASK_BUTTON_RELEASE
+                        | xcb::EVENT_MASK_COLOR_MAP_CHANGE
+                        | xcb::EVENT_MASK_ENTER_WINDOW
+                        | xcb::EVENT_MASK_EXPOSURE
+                        | xcb::EVENT_MASK_FOCUS_CHANGE
+                        | xcb::EVENT_MASK_KEYMAP_STATE
+                        | xcb::EVENT_MASK_KEY_PRESS
+                        | xcb::EVENT_MASK_KEY_RELEASE
+                        | xcb::EVENT_MASK_LEAVE_WINDOW
+                        | xcb::EVENT_MASK_NO_EVENT
+                        | xcb::EVENT_MASK_OWNER_GRAB_BUTTON
+                        | xcb::EVENT_MASK_POINTER_MOTION
+                        | xcb::EVENT_MASK_POINTER_MOTION_HINT
+                        | xcb::EVENT_MASK_PROPERTY_CHANGE
+                        | xcb::EVENT_MASK_RESIZE_REDIRECT
+                        | xcb::EVENT_MASK_STRUCTURE_NOTIFY
+                        | xcb::EVENT_MASK_SUBSTRUCTURE_NOTIFY
+                        | xcb::EVENT_MASK_SUBSTRUCTURE_REDIRECT
+                        | xcb::EVENT_MASK_VISIBILITY_CHANGE,
+                ),
             ];
 
             xcb::create_window(
@@ -124,14 +125,14 @@ impl<'a> Iterator for EventIterator<'a> {
                         };
                         Some(ButtonRelease(button_press_event.detail(), location))
                     }
-                    6 => {                         let motion_notify_event: &xcb::MotionNotifyEvent =
+                    6 => {
+                        let motion_notify_event: &xcb::MotionNotifyEvent =
                             unsafe { xcb::cast_event(&event_type) };
                         let location = Point {
                             x: motion_notify_event.event_x(),
                             y: motion_notify_event.event_y(),
                         };
-                                                Some(MotionNotify(location))
-
+                        Some(MotionNotify(location))
                     }
                     7 => Some(EnterNotify),
                     8 => Some(LeaveNotify),
@@ -139,7 +140,10 @@ impl<'a> Iterator for EventIterator<'a> {
                     10 => Some(FocusOut),
                     11 => Some(KeymapNotify),
                     12 => Some(Expose),
-                    _ => Some(UnimplementedEvent),
+                    _ => {
+                        println!("{}", event_type.response_type());
+                        Some(UnimplementedEvent)
+                    }
                     //_ => unreachable!("Recieved invalid request from the server"),
                 }
             }
